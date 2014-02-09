@@ -1,5 +1,6 @@
 #include <iostream>
 #include <SDL2/SDL.h>
+#include "../include/game.h"
 
 int main(int argc, char** argv){
   // setup
@@ -20,26 +21,18 @@ int main(int argc, char** argv){
     return 1;
   }
 
-  bool quit = false;
-  int counter = 0;
+  Game game;
+
   int fps = 1000 / 60;
-
   SDL_Event event;
-  while (quit == false) {
-    while (SDL_PollEvent(&event)){
-      if (event.type == SDL_QUIT) {
-        quit = true;
-      }
-    }
-
-    counter++;
-    if (counter % 60 == 0) {
-      std::cout << counter << std::endl;
-    }
+  while (game.quit == false) {
+    game.HandleInput(&event);
+    game.Update();
+    game.Render(ren);
 
     Uint32 timeout = SDL_GetTicks() + fps;
     while (!SDL_TICKS_PASSED(SDL_GetTicks(), timeout)) {
-
+      // busy work D: D:
     }
   }
 
