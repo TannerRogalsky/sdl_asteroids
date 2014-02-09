@@ -1,9 +1,12 @@
 #include <iostream>
 #include "../include/game.h"
 
-Game::Game()
+Game::Game(SDL_Renderer* renderer)
   : quit(false), counter(0)
 {
+  this->renderer = renderer;
+  Ship ship (100, 100, this->LoadTexture("./images/player.png"));
+  this->ship = ship;
 }
 
 void Game::Update(){
@@ -13,13 +16,14 @@ void Game::Update(){
   }
 }
 
-void Game::OnInput(SDL_Event* event) {
-  while (SDL_PollEvent(event)){
-    if (event->type == SDL_QUIT) {
+void Game::OnInput(SDL_Event* e) {
+  SDL_Event event = SDL_Event(*e);
+  while (SDL_PollEvent(e)){
+    if (event.type == SDL_QUIT) {
       this->quit = true;
     }
-    if (event->type == SDL_KEYDOWN){
-      switch (event->key.keysym.sym){
+    if (event.type == SDL_KEYDOWN){
+      switch (event.key.keysym.sym){
         case SDLK_ESCAPE:
           this->quit = true;
           break;
@@ -30,18 +34,21 @@ void Game::OnInput(SDL_Event* event) {
   }
 }
 
-void Game::Render(SDL_Renderer* renderer) {
+void Game::Render() {
   SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
   SDL_RenderClear(renderer);
 
-  SDL_Rect rect;
-  rect.x = 10;
-  rect.y = 10;
-  rect.w = 100;
-  rect.h = 100;
-
-  SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-  SDL_RenderFillRect(renderer, &rect);
+  // SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+  // SDL_RenderFillRect(renderer, &ship.bounds);
+  SDL_RenderCopy(renderer, ship.image, NULL, &ship.bounds);
 
   SDL_RenderPresent(renderer);
+}
+
+SDL_Texture* Game::LoadTexture(const std::string &file){
+  SDL_Texture *texture = IMG_LoadTexture(this->renderer, file.c_str());
+  if (texture == nullptr){
+    std::cout << "LoadTexture Error: " << SDL_GetError() << std::endl;
+  }
+  return texture;
 }

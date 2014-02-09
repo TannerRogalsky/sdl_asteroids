@@ -1,5 +1,5 @@
 CXX = clang++
-SDL = -lSDL2 -lSDL2_image -lSDL2_ttf
+SDL = -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_gfx
 CXXFLAGS = -Wall -c -std=c++11 -stdlib=libc++
 LDFLAGS = -stdlib=libc++ $(SDL)
 # The source and build output directories

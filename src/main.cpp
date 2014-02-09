@@ -1,5 +1,6 @@
 #include <iostream>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include "../include/game.h"
 
 int main(int argc, char** argv){
@@ -15,20 +16,20 @@ int main(int argc, char** argv){
     return 1;
   }
 
-  SDL_Renderer *ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-  if (ren == nullptr){
+  SDL_Renderer *renderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+  if (renderer == nullptr){
     std::cout << "SDL_CreateRenderer Error: " << SDL_GetError() << std::endl;
     return 1;
   }
 
-  Game game;
+  Game game (renderer);
 
   int fps = 1000 / 60;
   SDL_Event event;
   while (game.quit == false) {
-    game.HandleInput(&event);
+    game.OnInput(&event);
     game.Update();
-    game.Render(ren);
+    game.Render();
 
     Uint32 timeout = SDL_GetTicks() + fps;
     while (!SDL_TICKS_PASSED(SDL_GetTicks(), timeout)) {
@@ -37,7 +38,7 @@ int main(int argc, char** argv){
   }
 
   // tear down
-  SDL_DestroyRenderer(ren);
+  SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(win);
   SDL_Quit();
 
