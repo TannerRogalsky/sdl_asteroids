@@ -1,37 +1,38 @@
 #include <iostream>
 #include "../include/game.h"
 
-Game::Game(SDL_Renderer* renderer)
-  : quit(false), counter(0)
+Game::Game(SDL_Renderer* r)
+  : mQuit(false), renderer(r), mCounter(0)
 {
-  this->renderer = renderer;
-  Ship ship (100, 100, this->LoadTexture("./images/player.png"));
-  this->ship = ship;
+  this->ship = new Ship(100, 100, this->LoadTexture("./images/player.png"));
+}
+
+Game::~Game(){
+  delete ship;
 }
 
 void Game::Update(){
-  counter++;
-  if (counter % 60 == 0) {
-    std::cout << counter / 60 << std::endl;
+  mCounter++;
+  if (mCounter % 60 == 0) {
+    std::cout << mCounter / 60 << std::endl;
   }
 }
 
-void Game::OnInput(SDL_Event* e) {
-  SDL_Event event = SDL_Event(*e);
-  while (SDL_PollEvent(e)){
-    if (event.type == SDL_QUIT) {
-      this->quit = true;
+void Game::OnInput(SDL_Event* event) {
+  while (SDL_PollEvent(event)){
+    if (event->type == SDL_QUIT) {
+      mQuit = true;
     }
-    if (event.type == SDL_KEYDOWN){
-      switch (event.key.keysym.sym){
+    if (event->type == SDL_KEYDOWN){
+      switch (event->key.keysym.sym){
         case SDLK_ESCAPE:
-          this->quit = true;
+          mQuit = true;
           break;
         case SDLK_LEFT:
-          ship.angle -= 4;
+          ship->angle -= 4;
           break;
         case SDLK_RIGHT:
-          ship.angle += 4;
+          ship->angle += 4;
           break;
         case SDLK_UP:
           break;
@@ -48,8 +49,8 @@ void Game::Render() {
   SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
   SDL_RenderClear(renderer);
 
-  SDL_Point pivot = { ship.bounds.w / 2, ship.bounds.h / 2 };
-  SDL_RenderCopyEx(renderer, ship.image, NULL, &ship.bounds, ship.angle, &pivot, SDL_FLIP_NONE);
+  SDL_Point pivot = { ship->bounds.w / 2, ship->bounds.h / 2 };
+  SDL_RenderCopyEx(renderer, ship->image, NULL, &ship->bounds, ship->angle, &pivot, SDL_FLIP_NONE);
 
   SDL_RenderPresent(renderer);
 }

@@ -5,15 +5,20 @@ Ship::Ship() {
   Init(0, 0, 0, 0, NULL);
 }
 
+Ship::~Ship(){
+
+}
+
 Ship::Ship(int x, int y, SDL_Texture* image) {
   Init(x, y, 0, 0, image);
 }
 
 void Ship::Init(int x, int y, int width, int height, SDL_Texture* image){
   this->image = image;
-  bounds.x = x;
-  bounds.y = y;
-  bounds.w = 50;
-  bounds.h = 50;
+  bounds = {x, y, 50, 50};
+  // bounds.x = x;
+  // bounds.y = y;
+  // bounds.w = 50;
+  // bounds.h = 50;
   angle = 0;
 }

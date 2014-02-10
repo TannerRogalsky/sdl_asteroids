@@ -7,15 +7,16 @@
 class Game {
 public:
   Game(SDL_Renderer* renderer);
+  ~Game();
   void OnInput(SDL_Event* event);
   void Render();
   void Update();
+  bool mQuit;
   SDL_Texture* LoadTexture(const std::string &file);
-  bool quit;
   SDL_Renderer* renderer;
-  Ship ship;
+  Ship* ship;
 private:
-  int counter;
+  int mCounter;
 };
 
 #endif

@@ -5,6 +5,7 @@
 class Ship {
 public:
   Ship();
+  ~Ship();
   Ship(int, int, SDL_Texture*);
   SDL_Rect bounds;
   SDL_Texture* image;
