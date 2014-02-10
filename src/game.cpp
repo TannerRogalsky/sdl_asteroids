@@ -27,6 +27,16 @@ void Game::OnInput(SDL_Event* e) {
         case SDLK_ESCAPE:
           this->quit = true;
           break;
+        case SDLK_LEFT:
+          ship.angle -= 4;
+          break;
+        case SDLK_RIGHT:
+          ship.angle += 4;
+          break;
+        case SDLK_UP:
+          break;
+        case SDLK_DOWN:
+          break;
         default:
           break;
       }
@@ -38,9 +48,8 @@ void Game::Render() {
   SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
   SDL_RenderClear(renderer);
 
-  // SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-  // SDL_RenderFillRect(renderer, &ship.bounds);
-  SDL_RenderCopy(renderer, ship.image, NULL, &ship.bounds);
+  SDL_Point pivot = { ship.bounds.w / 2, ship.bounds.h / 2 };
+  SDL_RenderCopyEx(renderer, ship.image, NULL, &ship.bounds, ship.angle, &pivot, SDL_FLIP_NONE);
 
   SDL_RenderPresent(renderer);
 }
