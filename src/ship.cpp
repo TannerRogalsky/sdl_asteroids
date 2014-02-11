@@ -6,7 +6,7 @@ Ship::Ship() {
 }
 
 Ship::~Ship(){
-
+  SDL_DestroyTexture(image);
 }
 
 Ship::Ship(int x, int y, SDL_Texture* image) {

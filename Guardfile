@@ -1,5 +1,5 @@
 guard :shell do
   watch %r{^(src|include)/(.*)$} do
-    `make`
+    `make clean && make`
   end
 end

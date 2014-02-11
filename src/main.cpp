@@ -26,8 +26,10 @@ int main(int argc, char** argv){
 
   int fps = 1000 / 60;
   SDL_Event event;
-  while (game.quit == false) {
-    game.OnInput(&event);
+  while (game.mQuit == false) {
+    while (SDL_PollEvent(&event)){
+      game.OnInput(&event);
+    }
     game.Update();
     game.Render();
 

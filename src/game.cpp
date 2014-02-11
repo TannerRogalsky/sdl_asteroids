@@ -15,28 +15,26 @@ void Game::Update(){
 }
 
 void Game::OnInput(SDL_Event* event) {
-  while (SDL_PollEvent(event)){
-    if (event->type == SDL_QUIT) {
-      mQuit = true;
-    }
-    if (event->type == SDL_KEYDOWN){
-      switch (event->key.keysym.sym){
-        case SDLK_ESCAPE:
-          mQuit = true;
-          break;
-        case SDLK_LEFT:
-          mShip->mAngle -= 4;
-          break;
-        case SDLK_RIGHT:
-          mShip->mAngle += 4;
-          break;
-        case SDLK_UP:
-          break;
-        case SDLK_DOWN:
-          break;
-        default:
-          break;
-      }
+  if (event->type == SDL_QUIT) {
+    mQuit = true;
+  }
+  if (event->type == SDL_KEYDOWN){
+    switch (event->key.keysym.sym){
+      case SDLK_ESCAPE:
+        mQuit = true;
+        break;
+      case SDLK_LEFT:
+        mShip->mAngle -= 4;
+        break;
+      case SDLK_RIGHT:
+        mShip->mAngle += 4;
+        break;
+      case SDLK_UP:
+        break;
+      case SDLK_DOWN:
+        break;
+      default:
+        break;
     }
   }
 }
