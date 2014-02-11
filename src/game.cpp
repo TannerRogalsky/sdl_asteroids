@@ -2,20 +2,16 @@
 #include "../include/game.h"
 
 Game::Game(SDL_Renderer* r)
-  : mQuit(false), renderer(r), mCounter(0)
+  : mQuit(false), renderer(r)
 {
-  this->ship = new Ship(100, 100, this->LoadTexture("./images/player.png"));
+  this->mShip = std::shared_ptr<Ship>(new Ship(100, 100, this->LoadTexture("./images/player.png")));
 }
 
 Game::~Game(){
-  delete ship;
+  // delete ship;
 }
 
 void Game::Update(){
-  mCounter++;
-  if (mCounter % 60 == 0) {
-    std::cout << mCounter / 60 << std::endl;
-  }
 }
 
 void Game::OnInput(SDL_Event* event) {
@@ -29,10 +25,10 @@ void Game::OnInput(SDL_Event* event) {
           mQuit = true;
           break;
         case SDLK_LEFT:
-          ship->angle -= 4;
+          mShip->mAngle -= 4;
           break;
         case SDLK_RIGHT:
-          ship->angle += 4;
+          mShip->mAngle += 4;
           break;
         case SDLK_UP:
           break;
@@ -49,8 +45,8 @@ void Game::Render() {
   SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
   SDL_RenderClear(renderer);
 
-  SDL_Point pivot = { ship->bounds.w / 2, ship->bounds.h / 2 };
-  SDL_RenderCopyEx(renderer, ship->image, NULL, &ship->bounds, ship->angle, &pivot, SDL_FLIP_NONE);
+  SDL_Point pivot = { mShip->mBounds.w / 2, mShip->mBounds.h / 2 };
+  SDL_RenderCopyEx(renderer, mShip->image, NULL, &mShip->mBounds, mShip->mAngle, &pivot, SDL_FLIP_NONE);
 
   SDL_RenderPresent(renderer);
 }

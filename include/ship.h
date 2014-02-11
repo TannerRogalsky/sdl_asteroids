@@ -7,9 +7,9 @@ public:
   Ship();
   ~Ship();
   Ship(int, int, SDL_Texture*);
-  SDL_Rect bounds;
+  SDL_Rect mBounds;
   SDL_Texture* image;
-  int angle;
+  int mAngle;
 private:
   void Init(int, int, int, int, SDL_Texture*);
 };

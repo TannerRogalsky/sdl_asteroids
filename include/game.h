@@ -2,6 +2,7 @@
 #define GAME_H
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <memory>
 #include "ship.h"
 
 class Game {
@@ -14,9 +15,8 @@ public:
   bool mQuit;
   SDL_Texture* LoadTexture(const std::string &file);
   SDL_Renderer* renderer;
-  Ship* ship;
+  std::shared_ptr<Ship> mShip;
 private:
-  int mCounter;
 };
 
 #endif
