@@ -7,14 +7,13 @@
 
 class Game {
 public:
-  Game(SDL_Renderer* renderer);
+  Game();
   ~Game();
   void OnInput(SDL_Event* event);
   void Render();
   void Update();
   bool mQuit;
   SDL_Texture* LoadTexture(const std::string &file);
-  SDL_Renderer* renderer;
   std::shared_ptr<Ship> mShip;
 private:
 };
